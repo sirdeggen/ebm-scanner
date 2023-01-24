@@ -16,6 +16,7 @@ const DELAY = 334 // 3 times per second max
 // function which makes one request per item in array and return when all have resolved
 async function grabBlockMetadata(req, txs) {
     try {
+        const { address } = req.query
         const promises = txs.map(
             (tx, idx) =>
                 new Promise((resolve, reject) => {
@@ -25,6 +26,7 @@ async function grabBlockMetadata(req, txs) {
                             if (block?.tx?.[0] === tx?.tx_hash) {
                                 // save to the database
                                 const formattedBlock = {
+                                    address,
                                     height: block.height,
                                     link: `https://whatsonchain.com/block/${block.hash}`,
                                     txs: block?.txcount || block?.num_tx,
@@ -80,7 +82,7 @@ const gatherData = async (req, res) => {
         let blocks =
             (await req.db
                 .collection('blocks')
-                .find({ sort: { height: -1 } })
+                .find({ address }, { sort: { height: -1 } })
                 ?.toArray()) || []
         const highestHeight = blocks[0]?.height || 0
         console.log({ highestHeight })
