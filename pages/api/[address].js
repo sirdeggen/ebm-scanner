@@ -16,35 +16,46 @@ const DELAY = 334 // 3 times per second max
 // function which makes one request per item in array and return when all have resolved
 async function grabBlockMetadata(req, txs) {
     try {
-        const promises = txs
-            .map(
-                (tx, idx) =>
-                    new Promise((resolve, reject) => {
-                        setTimeout(async () => {
-                            try {
-                                const block = await httpsClientWithHeaders(woc + `block/height/${tx.height}`)
-                                if (block?.tx?.[0] === tx?.tx_hash) {
-                                    // save to the database
-                                    const result = await req.db.collection('blocks').insertOne(block)
-                                    if (result?.insertedCount === 1) console.log(`Inserted block ${block.height}`)
-                                    resolve(block)
-                                } else {
-                                    resolve(false)
+        const promises = txs.map(
+            (tx, idx) =>
+                new Promise((resolve, reject) => {
+                    setTimeout(async () => {
+                        try {
+                            const block = await httpsClientWithHeaders(woc + `block/height/${tx.height}`)
+                            if (block?.tx?.[0] === tx?.tx_hash) {
+                                // save to the database
+                                const formattedBlock = {
+                                    height: block.height,
+                                    link: `https://whatsonchain.com/block/${block.hash}`,
+                                    txs: block?.txcount || block?.num_tx,
+                                    date: new Date(block.time),
                                 }
-                            } catch (error) {
-                                reject(error)
+                                await req.db.collection('blocks').insertOne(formattedBlock)
+                                console.log(`Inserted block ${block.height}`)
+                                resolve(formattedBlock)
+                            } else {
+                                resolve(false)
                             }
-                        }, DELAY * idx + 1)
-                    })
-            )
+                        } catch (error) {
+                            reject(error)
+                        }
+                    }, DELAY * idx + 1)
+                })
+        )
         const responses = await Promise.all(promises)
-        return responses.filter(x => !!x).map(x => ({ height: x.height, hash: x.hash, txcount: x.txcount, time: x.time }))
+        return responses
+            .filter(x => !!x)
+            .map(x => ({
+                height: x.height,
+                link: `https://whatsonchain.com/block/${x.hash}`,
+                txs: x.txcount,
+                date: new Date(x.time),
+            }))
     } catch (error) {
         console.log({ error })
         return { error }
     }
 }
-
 
 // convert to csv
 function convertJSONArrayToCSV(json) {
@@ -66,7 +77,11 @@ const gatherData = async (req, res) => {
         const history = await grabAddressHistory(address)
 
         // what data do we already have?
-        let blocks = await req.db.collection('blocks').find({ sort: { height: -1 } })?.toArray() || []
+        let blocks =
+            (await req.db
+                .collection('blocks')
+                .find({ sort: { height: -1 } })
+                ?.toArray()) || []
         const highestHeight = blocks[0]?.height || 0
         console.log({ highestHeight })
 
