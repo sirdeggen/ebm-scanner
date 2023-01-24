@@ -28,7 +28,7 @@ async function grabBlockMetadata(req, txs) {
                                     height: block.height,
                                     link: `https://whatsonchain.com/block/${block.hash}`,
                                     txs: block?.txcount || block?.num_tx,
-                                    date: new Date(block.time),
+                                    date: new Date(block.time * 1000),
                                 }
                                 await req.db.collection('blocks').insertOne(formattedBlock)
                                 console.log(`Inserted block ${block.height}`)
