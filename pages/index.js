@@ -28,7 +28,7 @@ export default function Home() {
                 </p>
 
                 <footer className={'footer'}>
-                    <p>Run by Bitcoin Association Engineering Team.</p>
+                    <p>Run by Bitcoin Association for BSV.</p>
                 </footer>
             </main>
         </div>
