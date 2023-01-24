@@ -1,0 +1,26 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "next",
+        "build": "next build",
+        "start": "next start"
+    },
+    "dependencies": {
+        "@handcash/handcash-connect": "^0.6.2",
+        "@hapi/iron": "6.0.0",
+        "cookie": "0.4.0",
+        "electrum-ecies": "^1.1.8",
+        "iron-session": "^6.3.1",
+        "next": "latest",
+        "next-connect": "^0.6.1",
+        "openspv": "^3.0.29",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0",
+        "prettier": "^2.7.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-dropzone": "^14.2.3",
+        "swr": "^0.1.18",
+        "uuidv4": "6.2.5"
+    }
+}

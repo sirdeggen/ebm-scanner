@@ -1,0 +1,131 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    color: #ffffff;
+    background-color: black;
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(0deg, rgb(25, 116, 139), rgb(7, 69, 84));
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 45rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+}
+h1 {
+    font-family: 'Vujahday Script', sans-serif;
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+}
+.form-container {
+    max-width: 21rem;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+form,
+label {
+    display: flex;
+    flex-flow: column;
+}
+label > span {
+    font-weight: 600;
+}
+input {
+    padding: 8px;
+    margin: 0.3rem 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.submit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+}
+.submit > button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.submit > button:hover {
+    border-color: #888;
+}
+.submit > a {
+    text-decoration: none;
+}
+.error {
+    color: #ae3737;
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    padding: 10px 30px;
+    border: none;
+    box-shadow: rgba(0,0,0,0.2) 0px 2px 4px 0px;
+    cursor: pointer;
+    color: #063440;
+    background: white;
+    margin: 0 auto;
+    display: block;
+}
+
+.shareLink {
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    user-select: all;
+    cursor: pointer;
+    background: white;
+    color: #063440;
+    border: 2px dashed #063440;
+    padding: 10px 20px;
+    display: block;
+    overflow: hidden;
+    margin: 24px 0;
+}
+
+.fileLine {
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.20);
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+}
+
+.clear {
+    margin-top: 24px;
+    color: white;
+    background-color: #ae3737;
+}
+
+.dropZone {
+    height: 100%;
+    width: 100%;
+    border: 1px dashed rgba(255,255,255,0.5);
+    padding: 75px;
+    text-align: center;
+}
+
+.centerBlock {
+    padding: 18px;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
