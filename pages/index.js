@@ -1,8 +1,21 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export default function Home() {
+    const [counter, setCounter] = useState(0)
     const router = useRouter()
+
+    async function getData() {
+        setCounter(c => c++)
+        const res = await fetch(`/api/1KPSTuJMCMRXrTWHfCwpiRZg1ALbJzh844`)
+        if (res.status === 504) {
+            return await getData()
+        }
+        setCounter(0)
+        await router.push('/api/1KPSTuJMCMRXrTWHfCwpiRZg1ALbJzh844')
+    }
+
     return (
         <div className={'container'}>
             <Head>
@@ -20,9 +33,10 @@ export default function Home() {
                 <p className={'warning'}>
                     This will take up to <b>30 mins</b> to gather all data.
                 </p>
+                {counter && <p className={'warning'}>{counter * 180} new blocks added to dataset... please wait</p>}
 
                 <p className={'description'}>
-                    <button className={'button'} onClick={() => router.push('/api/1KPSTuJMCMRXrTWHfCwpiRZg1ALbJzh844')}>
+                    <button className={'button'} onClick={getData}>
                         Download Latest Data as CSV file
                     </button>
                 </p>
